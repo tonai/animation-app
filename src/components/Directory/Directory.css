@@ -1,0 +1,11 @@
+.directory {
+  list-style-type: none;
+  margin: auto;
+  padding: var(--mantine-spacing-sm);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: var(--mantine-spacing-sm);
+  max-height: 50%;
+  overflow: auto;
+}
