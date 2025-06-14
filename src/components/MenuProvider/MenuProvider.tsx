@@ -10,6 +10,5 @@ interface MenuProviderProps {
 export default function MenuProvider(props: MenuProviderProps) {
   const { children } = props;
   const tree = useTree();
-  // console.log(tree.selectedState)
   return <menuContext.Provider value={tree}>{children}</menuContext.Provider>;
 }

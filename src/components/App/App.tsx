@@ -7,6 +7,7 @@ import MenuProvider from "../MenuProvider/MenuProvider";
 import "./App.css";
 import Directory from "../Directory/Directory";
 import Preview from "../Preview/Preview";
+import AnimationProvider from "../AnimationProvider/AnimationProvider";
 
 const theme = createTheme({
   /** Put your mantine theme override here */
@@ -16,13 +17,15 @@ function App() {
   return (
     <MantineProvider theme={theme}>
       <MenuProvider>
-        <div className="app">
-          <Menu />
-          <div className="app__content">
-            <Directory />
-            <Preview />
+        <AnimationProvider>
+          <div className="app">
+            <Menu />
+            <div className="app__content">
+              <Directory />
+              <Preview />
+            </div>
           </div>
-        </div>
+        </AnimationProvider>
       </MenuProvider>
     </MantineProvider>
   );

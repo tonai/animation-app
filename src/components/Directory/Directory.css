@@ -9,3 +9,12 @@
   max-height: 50%;
   overflow: auto;
 }
+
+.directory__item {
+  position: relative;
+}
+
+.directory__badge {
+  position: absolute;
+  top: 0;
+}
