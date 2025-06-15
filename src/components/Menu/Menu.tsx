@@ -10,7 +10,7 @@ import "./Menu.css";
 const data = getTree(menu);
 
 export default function Menu() {
-  const tree = useMenu();
+  const { tree } = useMenu();
 
   return (
     <div className="menu">

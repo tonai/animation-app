@@ -1,6 +1,18 @@
 .preview {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    overflow: hidden;
+}
+
+.preview__content {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+}
+
+.preview__controls {
+  border-top: 1px solid var(--mantine-color-gray-3);
 }

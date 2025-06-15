@@ -1,33 +1,16 @@
-import { useEffect, useMemo } from "react";
-import { Badge, Button, Card } from "@mantine/core";
+import { useEffect } from "react";
+import { Badge, Card } from "@mantine/core";
 
-import menu from "../../assets/menu.json";
 import { useMenu } from "../../contexts/menu";
 import { useAnimation } from "../../contexts/animation";
-import { isImage } from "../../lib/menu";
-import type { Menu } from "../../types/menu";
+import { useImage } from "../../contexts/image";
 
 import "./Directory.css";
 
 export default function Directory() {
-  const tree = useMenu();
+  const { files } = useMenu();
   const { selectedFrames, setSelectedFrames } = useAnimation();
-
-  const files = useMemo(() => {
-    const path = tree.selectedState?.[0];
-    const selectedDirs = path?.split("/").slice(1);
-    if (selectedDirs) {
-      let directory = menu as Menu;
-      for (const dir of selectedDirs) {
-        directory = directory[dir] as Menu;
-      }
-      return directory?._contents
-        .filter(isImage)
-        .map((file) => `${path}/${file}`);
-    }
-    return [];
-  }, [tree.selectedState]);
-  const allSelected = selectedFrames.length === files.length;
+  const { scale } = useImage();
 
   function handleClick(file: string) {
     return () =>
@@ -40,50 +23,53 @@ export default function Directory() {
       });
   }
 
-  function handleSelect() {
-    if (allSelected) {
-      setSelectedFrames([]);
-    } else {
-      setSelectedFrames(files);
-    }
-  }
-
   useEffect(() => {
     setSelectedFrames([]);
   }, [files]);
 
   return (
-    <div className="directory">
-      <div className="directory__header">
-        <Button m="sm" onClick={handleSelect}>
-          {allSelected ? "Deselect all" : "Select all"}
-        </Button>
-      </div>
-      <ul className="directory__list">
-        {files.map((file) => {
-          const index = selectedFrames.indexOf(file);
-          return (
-            <li key={file} className="directory__item">
-              <Card
-                radius="md"
-                withBorder
-                onClick={handleClick(file)}
-                shadow="sm"
-                bg={index >= 0 ? "blue.1" : ""}
+    <ul className="directory">
+      {files.map((file) => {
+        const index = selectedFrames.indexOf(file);
+        return (
+          <li
+            key={file}
+            className="directory__item"
+            style={{
+              scale: scale,
+              width: "fit-content",
+              marginBottom: `${scale * 100 - 100}%`,
+              marginRight: `${scale * 100 - 100}%`,
+              transformOrigin: "top left",
+            }}
+          >
+            <Card
+              radius="md"
+              withBorder
+              onClick={handleClick(file)}
+              shadow="sm"
+              bg={index >= 0 ? "blue.1" : ""}
+            >
+              <Card.Section>
+                <img src={file} alt="" title={file} />
+              </Card.Section>
+            </Card>
+            {index >= 0 && (
+              <Badge
+                size="md"
+                circle
+                className="directory__badge"
+                style={{
+                  scale: 1 / scale,
+                  transformOrigin: "top left",
+                }}
               >
-                <Card.Section>
-                  <img src={file} alt="" title={file} />
-                </Card.Section>
-              </Card>
-              {index >= 0 && (
-                <Badge size="md" circle className="directory__badge">
-                  {index + 1}
-                </Badge>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+                {index + 1}
+              </Badge>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }

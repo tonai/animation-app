@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ActionIcon, Card, Group } from "@mantine/core";
+import { ActionIcon, Group } from "@mantine/core";
 import {
   IconPlayerPlayFilled,
   IconPlayerStopFilled,
@@ -7,12 +7,14 @@ import {
 } from "@tabler/icons-react";
 
 import { useAnimation } from "../../contexts/animation";
+import { useImage } from "../../contexts/image";
 import { startAnimation } from "../../lib/animation";
 
 import "./Preview.css";
 
 export default function Preview() {
   const { selectedFrames } = useAnimation();
+  const { scale } = useImage();
   const [play, setPlay] = useState(false);
   const [loop, setLoop] = useState(false);
   const ref = useRef<HTMLImageElement>(null);
@@ -27,7 +29,7 @@ export default function Preview() {
   }
 
   function handleLoop() {
-    setLoop(prevState => !prevState);
+    setLoop((prevState) => !prevState);
   }
 
   useEffect(() => {
@@ -39,38 +41,40 @@ export default function Preview() {
 
   return (
     <div className="preview">
-      {selectedFrames.length > 0 && (
-        <Card radius="md" withBorder shadow="sm">
-          <Card.Section>
-            <img ref={ref} src={selectedFrames[0]} alt="" />
-          </Card.Section>
-
-          <Group gap="xs" justify="center">
-            <ActionIcon
-              color="blue"
-              variant="filled"
-              radius="md"
-              onClick={handlePlay}
-              disabled={play || loop}
-            >
-              <IconPlayerPlayFilled style={{ width: "18px" }} />
-            </ActionIcon>
-            <ActionIcon
-              color="blue"
-              variant="filled"
-              radius="md"
-              onClick={handleLoop}
-              disabled={play}
-            >
-              {loop ? (
-                <IconPlayerStopFilled style={{ width: "18px" }} />
-              ) : (
-                <IconRestore style={{ width: "18px" }} />
-              )}
-            </ActionIcon>
-          </Group>
-        </Card>
-      )}
+      <div className="preview__content">
+        {selectedFrames.length > 0 && (
+          <img
+            ref={ref}
+            src={selectedFrames[0]}
+            alt=""
+            style={{ scale: scale }}
+          />
+        )}
+      </div>
+      <Group className="preview__controls" gap="xs" justify="center" p="sm">
+        <ActionIcon
+          color="blue"
+          variant="filled"
+          radius="md"
+          onClick={handlePlay}
+          disabled={play || loop}
+        >
+          <IconPlayerPlayFilled style={{ width: "18px" }} />
+        </ActionIcon>
+        <ActionIcon
+          color="blue"
+          variant="filled"
+          radius="md"
+          onClick={handleLoop}
+          disabled={play}
+        >
+          {loop ? (
+            <IconPlayerStopFilled style={{ width: "18px" }} />
+          ) : (
+            <IconRestore style={{ width: "18px" }} />
+          )}
+        </ActionIcon>
+      </Group>
     </div>
   );
 }

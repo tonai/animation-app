@@ -3,6 +3,13 @@
     height: 100vh;
 }
 
+.app__top {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+}
+
 .app__content {
     flex: 1;
     display: flex;

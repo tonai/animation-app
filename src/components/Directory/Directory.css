@@ -1,12 +1,4 @@
 .directory {
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  max-height: 50%;
-  border-bottom: 1px solid var(--mantine-color-gray-3);
-}
-
-.directory__list {
   list-style-type: none;
   margin: 0;
   padding: var(--mantine-spacing-sm);
@@ -15,12 +7,6 @@
   justify-content: flex-start;
   gap: var(--mantine-spacing-sm);
   overflow: auto;
-}
-
-.directory__header {
-  display: flex;
-  justify-content: flex-end;
-  border-bottom: 1px solid var(--mantine-color-gray-3);
 }
 
 .directory__item {

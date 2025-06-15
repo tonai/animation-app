@@ -6,7 +6,7 @@ export const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp"];
 export const IMAGE_DIR = "assets";
 
 export function isImage(file: string) {
-  const extension = file.substr(file.lastIndexOf("."));
+  const extension = file.substring(file.lastIndexOf("."));
   return IMAGE_EXTENSIONS.includes(extension);
 }
 
