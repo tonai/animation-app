@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { Badge, Card } from "@mantine/core";
+import { useEffect, useMemo } from "react";
+import { Badge, Button, Card } from "@mantine/core";
 
 import menu from "../../assets/menu.json";
 import { useMenu } from "../../contexts/menu";
@@ -27,6 +27,7 @@ export default function Directory() {
     }
     return [];
   }, [tree.selectedState]);
+  const allSelected = selectedFrames.length === files.length;
 
   function handleClick(file: string) {
     return () =>
@@ -39,31 +40,50 @@ export default function Directory() {
       });
   }
 
+  function handleSelect() {
+    if (allSelected) {
+      setSelectedFrames([]);
+    } else {
+      setSelectedFrames(files);
+    }
+  }
+
+  useEffect(() => {
+    setSelectedFrames([]);
+  }, [files]);
+
   return (
-    <ul className="directory">
-      {files.map((file) => {
-        const index = selectedFrames.indexOf(file);
-        return (
-          <li key={file} className="directory__item">
-            <Card
-              radius="md"
-              withBorder
-              onClick={handleClick(file)}
-              shadow="sm"
-              bg={index >= 0 ? "blue.1" : ""}
-            >
-              <Card.Section>
-                <img src={file} alt="" title={file} />
-              </Card.Section>
-            </Card>
-            {index >= 0 && (
-              <Badge size="md" circle className="directory__badge">
-                {index + 1}
-              </Badge>
-            )}
-          </li>
-        );
-      })}
-    </ul>
+    <div className="directory">
+      <div className="directory__header">
+        <Button m="sm" onClick={handleSelect}>
+          {allSelected ? "Deselect all" : "Select all"}
+        </Button>
+      </div>
+      <ul className="directory__list">
+        {files.map((file) => {
+          const index = selectedFrames.indexOf(file);
+          return (
+            <li key={file} className="directory__item">
+              <Card
+                radius="md"
+                withBorder
+                onClick={handleClick(file)}
+                shadow="sm"
+                bg={index >= 0 ? "blue.1" : ""}
+              >
+                <Card.Section>
+                  <img src={file} alt="" title={file} />
+                </Card.Section>
+              </Card>
+              {index >= 0 && (
+                <Badge size="md" circle className="directory__badge">
+                  {index + 1}
+                </Badge>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
